@@ -1,0 +1,9 @@
+<!-- Adicione dentro do elemento <manifest> em android/app/src/main/AndroidManifest.xml -->
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+<!--
+No Android 14+, USE_EXACT_ALARM possui requisitos de política mais restritos.
+Use apenas quando alarmes exatos forem função central e após revisar as regras da Play Store:
+<uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+-->

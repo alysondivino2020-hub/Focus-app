@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ícone FOCUS">
+  <defs>
+    <linearGradient id="g" x1="60" y1="40" x2="450" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#312E81"/>
+      <stop offset=".58" stop-color="#5B4CE6"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="132" fill="url(#g)"/>
+  <circle cx="256" cy="256" r="153" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="18"/>
+  <path d="M172 150h184v48H229v71h103v47H229v96h-57z" fill="#fff"/>
+  <circle cx="376" cy="137" r="24" fill="#67E8F9"/>
+</svg>

@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#3730A3">
+  <meta name="description" content="FOCUS: agenda, tarefas, hábitos, metas e sessões de foco.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <title>FOCUS — Organização pessoal</title>
+</head>
+<body>
+  <noscript>O FOCUS precisa de JavaScript habilitado.</noscript>
+
+  <div id="splash" class="splash" aria-live="polite">
+    <div class="brand-mark splash-mark" aria-hidden="true"><span>F</span></div>
+    <strong>FOCUS</strong>
+    <div class="loading-orbit" aria-hidden="true"></div>
+    <span class="sr-only">Carregando aplicativo</span>
+  </div>
+
+  <section id="onboarding" class="onboarding hidden" aria-labelledby="onboarding-title">
+    <div class="onboarding-visual">
+      <div class="brand-lockup">
+        <div class="brand-mark"><span>F</span></div>
+        <span>FOCUS</span>
+      </div>
+      <div class="orbit-illustration" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="orbit-core">Hoje</div>
+        <span class="orbit-dot dot-a"></span>
+        <span class="orbit-dot dot-b"></span>
+        <span class="orbit-dot dot-c"></span>
+      </div>
+      <h1 id="onboarding-title">Sua rotina em uma visão clara.</h1>
+      <p>Organize compromissos, tarefas, hábitos e metas sem depender de conexão.</p>
+    </div>
+    <form id="onboarding-form" class="onboarding-form">
+      <div class="step-indicator"><span class="active"></span><span></span><span></span></div>
+      <div class="form-grid">
+        <label class="field full">
+          <span>Como devemos chamar você?</span>
+          <input name="name" required maxlength="60" autocomplete="name" placeholder="Seu nome">
+        </label>
+        <fieldset class="field full weekdays-field">
+          <legend>Em quais dias você trabalha ou estuda?</legend>
+          <div class="weekday-picker" id="onboarding-weekdays">
+            <label><input type="checkbox" value="1" checked><span>Seg</span></label>
+            <label><input type="checkbox" value="2" checked><span>Ter</span></label>
+            <label><input type="checkbox" value="3" checked><span>Qua</span></label>
+            <label><input type="checkbox" value="4" checked><span>Qui</span></label>
+            <label><input type="checkbox" value="5" checked><span>Sex</span></label>
+            <label><input type="checkbox" value="6"><span>Sáb</span></label>
+            <label><input type="checkbox" value="0"><span>Dom</span></label>
+          </div>
+        </fieldset>
+        <label class="field">
+          <span>Início do dia</span>
+          <input type="time" name="dayStart" value="06:00" required>
+        </label>
+        <label class="field">
+          <span>Término do dia</span>
+          <input type="time" name="dayEnd" value="23:00" required>
+        </label>
+        <label class="field full">
+          <span>Principal objetivo</span>
+          <select name="mainGoal">
+            <option value="organizar">Organizar minha rotina</option>
+            <option value="estudar">Estudar com consistência</option>
+            <option value="trabalhar">Gerenciar trabalho e projetos</option>
+            <option value="habitos">Criar hábitos melhores</option>
+            <option value="equilibrar">Equilibrar compromissos pessoais</option>
+          </select>
+        </label>
+        <label class="switch-row full">
+          <span><strong>Receber lembretes</strong><small>Você poderá alterar isso depois.</small></span>
+          <input type="checkbox" name="notifications" checked role="switch">
+        </label>
+      </div>
+      <button class="btn primary wide" type="submit">Começar a organizar</button>
+      <button class="btn ghost wide" id="demo-onboarding" type="button">Explorar com dados de demonstração</button>
+    </form>
+  </section>
+
+  <div id="app-shell" class="app-shell hidden">
+    <aside class="sidebar" aria-label="Navegação principal">
+      <a class="brand-lockup sidebar-brand" href="#home" aria-label="FOCUS — Início">
+        <div class="brand-mark"><span>F</span></div>
+        <span>FOCUS</span>
+      </a>
+      <nav class="side-nav">
+        <a href="#home" data-route="home"><i data-lucide="layout-dashboard"></i><span>Início</span></a>
+        <a href="#agenda" data-route="agenda"><i data-lucide="calendar-days"></i><span>Agenda</span></a>
+        <button class="nav-add" data-action="open-add"><i data-lucide="plus"></i><span>Adicionar</span></button>
+        <a href="#focus" data-route="focus"><i data-lucide="timer"></i><span>Foco</span></a>
+        <a href="#profile" data-route="profile"><i data-lucide="user-round"></i><span>Perfil</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="icon-text-button" id="install-button" hidden>
+          <i data-lucide="download"></i><span>Instalar aplicativo</span>
+        </button>
+        <div class="sync-status" id="sync-status">
+          <span class="status-dot"></span><span>Dados locais protegidos</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="content-column">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="page-eyebrow">PLANEJAMENTO PESSOAL</p>
+          <h1 id="page-title">Início</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-button" id="global-search-button" aria-label="Pesquisar"><i data-lucide="search"></i></button>
+          <button class="icon-button" id="notifications-button" aria-label="Notificações"><i data-lucide="bell"></i><span class="notification-badge hidden" id="notification-badge"></span></button>
+          <button class="avatar-button" id="profile-button" aria-label="Abrir perfil"><span id="avatar-initials">FO</span></button>
+        </div>
+      </header>
+
+      <main id="main-content" tabindex="-1"></main>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Navegação principal no celular">
+      <a href="#home" data-route="home"><i data-lucide="layout-dashboard"></i><span>Início</span></a>
+      <a href="#agenda" data-route="agenda"><i data-lucide="calendar-days"></i><span>Agenda</span></a>
+      <button class="bottom-add" data-action="open-add" aria-label="Adicionar atividade"><i data-lucide="plus"></i></button>
+      <a href="#focus" data-route="focus"><i data-lucide="timer"></i><span>Foco</span></a>
+      <a href="#profile" data-route="profile"><i data-lucide="user-round"></i><span>Perfil</span></a>
+    </nav>
+  </div>
+
+  <dialog id="activity-dialog" class="modal">
+    <form method="dialog" class="modal-card activity-form" id="activity-form">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">NOVA ORGANIZAÇÃO</p>
+          <h2 id="activity-form-title">Adicionar atividade</h2>
+        </div>
+        <button type="button" class="icon-button" data-action="close-modal" aria-label="Fechar"><i data-lucide="x"></i></button>
+      </div>
+
+      <input type="hidden" name="id">
+      <div class="type-selector" role="radiogroup" aria-label="Tipo de atividade">
+        <label><input type="radio" name="type" value="commitment" checked><span><i data-lucide="calendar-check"></i>Compromisso</span></label>
+        <label><input type="radio" name="type" value="task"><span><i data-lucide="check-square"></i>Tarefa</span></label>
+        <label><input type="radio" name="type" value="event"><span><i data-lucide="sparkles"></i>Evento</span></label>
+        <label><input type="radio" name="type" value="habit"><span><i data-lucide="repeat-2"></i>Hábito</span></label>
+        <label><input type="radio" name="type" value="goal"><span><i data-lucide="target"></i>Meta</span></label>
+        <label><input type="radio" name="type" value="study"><span><i data-lucide="book-open"></i>Estudo</span></label>
+      </div>
+
+      <div class="form-grid">
+        <label class="field full">
+          <span>Título *</span>
+          <input name="title" required maxlength="120" placeholder="Ex.: Revisar conteúdo da prova">
+        </label>
+        <label class="field full">
+          <span>Descrição</span>
+          <textarea name="description" maxlength="1000" rows="3" placeholder="Contexto, instruções ou resultado esperado"></textarea>
+        </label>
+        <label class="field">
+          <span>Categoria</span>
+          <select name="category" id="activity-category"></select>
+        </label>
+        <label class="field">
+          <span>Prioridade</span>
+          <select name="priority">
+            <option value="low">Baixa</option>
+            <option value="normal" selected>Normal</option>
+            <option value="high">Alta</option>
+            <option value="urgent">Urgente</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Data *</span>
+          <input type="date" name="date" required>
+        </label>
+        <label class="field">
+          <span>Duração estimada</span>
+          <select name="duration">
+            <option value="15">15 minutos</option>
+            <option value="30">30 minutos</option>
+            <option value="45">45 minutos</option>
+            <option value="60" selected>1 hora</option>
+            <option value="90">1h30</option>
+            <option value="120">2 horas</option>
+            <option value="custom">Personalizada</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Horário inicial</span>
+          <input type="time" name="startTime">
+        </label>
+        <label class="field">
+          <span>Horário final</span>
+          <input type="time" name="endTime">
+        </label>
+        <label class="field">
+          <span>Local</span>
+          <input name="location" maxlength="120" placeholder="Opcional">
+        </label>
+        <label class="field">
+          <span>Responsável</span>
+          <input name="responsible" maxlength="120" placeholder="Opcional">
+        </label>
+        <label class="field">
+          <span>Cor</span>
+          <input type="color" name="color" value="#4F46E5">
+        </label>
+        <label class="field full">
+          <span>Subtarefas</span>
+          <textarea name="subtasks" rows="3" placeholder="Uma subtarefa por linha"></textarea>
+        </label>
+        <label class="field">
+          <span>Recorrência</span>
+          <select name="recurrenceType" id="recurrence-type">
+            <option value="none">Não repetir</option>
+            <option value="daily">Diariamente</option>
+            <option value="weekdays">Dias úteis</option>
+            <option value="weekly">Semanalmente</option>
+            <option value="monthly">Mensalmente</option>
+            <option value="yearly">Anualmente</option>
+            <option value="custom">Dias personalizados</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Repetir até</span>
+          <input type="date" name="recurrenceUntil">
+        </label>
+        <fieldset class="field full recurrence-days hidden" id="recurrence-days">
+          <legend>Dias da semana</legend>
+          <div class="weekday-picker">
+            <label><input type="checkbox" name="recurrenceDays" value="1"><span>Seg</span></label>
+            <label><input type="checkbox" name="recurrenceDays" value="2"><span>Ter</span></label>
+            <label><input type="checkbox" name="recurrenceDays" value="3"><span>Qua</span></label>
+            <label><input type="checkbox" name="recurrenceDays" value="4"><span>Qui</span></label>
+            <label><input type="checkbox" name="recurrenceDays" value="5"><span>Sex</span></label>
+            <label><input type="checkbox" name="recurrenceDays" value="6"><span>Sáb</span></label>
+            <label><input type="checkbox" name="recurrenceDays" value="0"><span>Dom</span></label>
+          </div>
+        </fieldset>
+        <label class="field">
+          <span>Lembrete</span>
+          <select name="reminder">
+            <option value="">Sem lembrete</option>
+            <option value="0">No horário</option>
+            <option value="5">5 minutos antes</option>
+            <option value="10">10 minutos antes</option>
+            <option value="15">15 minutos antes</option>
+            <option value="30">30 minutos antes</option>
+            <option value="60">1 hora antes</option>
+            <option value="1440">1 dia antes</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Matriz de Eisenhower</span>
+          <select name="eisenhower">
+            <option value="auto">Sugerir automaticamente</option>
+            <option value="important-urgent">Importante e urgente</option>
+            <option value="important-not-urgent">Importante e não urgente</option>
+            <option value="not-important-urgent">Não importante e urgente</option>
+            <option value="not-important-not-urgent">Não importante e não urgente</option>
+          </select>
+        </label>
+        <label class="field full">
+          <span>Anexo (máx. 2 MB)</span>
+          <input type="file" name="attachment" accept=".pdf,image/*,.txt,.doc,.docx">
+        </label>
+      </div>
+
+      <div id="conflict-alert" class="conflict-alert hidden" role="alert"></div>
+
+      <div class="modal-actions">
+        <button class="btn ghost" type="button" data-action="close-modal">Cancelar</button>
+        <button class="btn primary" type="submit">Salvar atividade</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="search-dialog" class="modal search-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">PESQUISA GLOBAL</p>
+          <h2>Encontre qualquer item</h2>
+        </div>
+        <button class="icon-button" data-action="close-search" aria-label="Fechar"><i data-lucide="x"></i></button>
+      </div>
+      <label class="search-input">
+        <i data-lucide="search"></i>
+        <input id="global-search-input" autocomplete="off" placeholder="Buscar atividades, hábitos e metas">
+      </label>
+      <div id="global-search-results" class="search-results"></div>
+    </div>
+  </dialog>
+
+  <dialog id="auth-dialog" class="modal">
+    <form class="modal-card auth-card" id="auth-form">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">SINCRONIZAÇÃO OPCIONAL</p>
+          <h2>Entrar no FOCUS</h2>
+        </div>
+        <button class="icon-button" type="button" data-action="close-auth" aria-label="Fechar"><i data-lucide="x"></i></button>
+      </div>
+      <p class="muted">Sem Firebase configurado, o aplicativo continua funcionando integralmente neste dispositivo.</p>
+      <label class="field"><span>E-mail</span><input type="email" name="email" required autocomplete="email"></label>
+      <label class="field"><span>Senha</span><input type="password" name="password" minlength="6" required autocomplete="current-password"></label>
+      <button class="btn primary wide" type="submit">Entrar</button>
+      <button class="btn secondary wide" type="button" id="google-login"><i data-lucide="chrome"></i>Entrar com Google</button>
+      <button class="btn ghost wide" type="button" id="create-account">Criar conta</button>
+      <button class="text-button" type="button" id="recover-password">Esqueci minha senha</button>
+      <p id="auth-message" class="form-message"></p>
+    </form>
+  </dialog>
+
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 220" role="img" aria-label="FOCUS">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="220" y2="220">
+      <stop stop-color="#312E81"/>
+      <stop offset=".62" stop-color="#5B4CE6"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="200" height="200" rx="58" fill="url(#g)"/>
+  <circle cx="110" cy="110" r="63" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="8"/>
+  <path d="M72 58h78v22H96v30h43v21H96v41H72z" fill="#fff"/>
+  <circle cx="163" cy="55" r="12" fill="#67E8F9"/>
+  <text x="250" y="148" font-family="Arial, sans-serif" font-size="112" font-weight="800" letter-spacing="10" fill="#171B2D">FOCUS</text>
+</svg>

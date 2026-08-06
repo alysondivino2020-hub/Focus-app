@@ -1,0 +1,9 @@
+node_modules/
+android/
+www/
+dist/
+js/firebase-config.js
+*.jks
+*.keystore
+.env
+.DS_Store

@@ -1,0 +1,85 @@
+name: Gerar APK Android
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: focus-android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-apk:
+    name: FOCUS APK instalável
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Instalar dependências
+        run: npm install --no-audit --no-fund
+
+      - name: Testar aplicação web
+        run: npm test
+
+      - name: Gerar arquivos web
+        run: npm run build:web
+
+      - name: Criar projeto Android Capacitor
+        run: |
+          rm -rf android
+          npx cap add android
+
+      - name: Gerar ícones e tela de abertura
+        run: |
+          npx @capacitor/assets generate --android \
+            --assetPath assets \
+            --iconBackgroundColor '#312E81' \
+            --iconBackgroundColorDark '#111426' \
+            --splashBackgroundColor '#111426' \
+            --splashBackgroundColorDark '#0F1220'
+
+      - name: Sincronizar e preparar Android
+        run: |
+          npx cap sync android
+          python scripts/prepare_android.py
+
+      - name: Compilar APK debug
+        working-directory: android
+        run: ./gradlew --no-daemon --stacktrace assembleDebug
+
+      - name: Organizar APK
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/FOCUS-Poco-F5-Pro-v1.0.0.apk
+          sha256sum dist/FOCUS-Poco-F5-Pro-v1.0.0.apk | tee dist/SHA256SUMS.txt
+
+      - name: Enviar APK como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: FOCUS-Poco-F5-Pro-v1.0.0
+          path: |
+            dist/FOCUS-Poco-F5-Pro-v1.0.0.apk
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
